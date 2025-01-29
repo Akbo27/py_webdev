@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from markupsafe import escape
 import matplotlib.pyplot as plt
 import numpy as np
 import os
 
 app = Flask(__name__)
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+app.config['UPLOAD_FOLDER'] = 'static/images'
 
 FUNCTIONS = {
     'sin': np.sin,
@@ -17,7 +19,7 @@ COLORS = ['blue', 'red', 'green', 'purple', 'orange']
 
 @app.route('/')
 def hello():
-    return render_template('plot.html', 
+    return render_template('main.html', 
                          functions=list(FUNCTIONS.keys()),
                          colors=COLORS)
 
@@ -36,3 +38,9 @@ def plot():
     plt.title(f"Plot of {selected_function}")
     plt.xlabel('x')
     plt.ylabel('y')
+    
+    plot_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'plot.png')
+    plt.savefig(plot_filename)
+    plt.close()
+
+    return render_template('plot.html', plot_url=plot_filename)

@@ -1,10 +1,30 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page of Superweb</title>
+    <title>Funtion Plotter</title>
 </head>
 <body>
-    <h1><strong>Hi! Glad to meet you!</strong></h1>
+    <h1>Function Plotter</h1>
+    <form action="/plot" method="POST">
+        <label for="x_from">X from:</label>
+        <input type="number" step="any" name="x_from" required>
+        <br>
+        <label for="x_to">X to:</label>
+        <input type="number" step="any" name="x_to" required>
+        <br>
+        <label for="function">Select a function:</label>
+        <select name="function" required>
+            {% for function in functions %}
+                <option value="{{ function }}">{{ function }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="color">Select color:</label>
+        <input type="color" name="color" value="#0000ff">
+        <br>
+        <button type="submit">Plot</button>
+    </form>
 </body>
 </html>
