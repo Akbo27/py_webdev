@@ -1,11 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
-from markupsafe import escape
 import matplotlib.pyplot as plt
 import numpy as np
 import os
 
 app = Flask(__name__)
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 app.config['UPLOAD_FOLDER'] = 'static/images'
 
 FUNCTIONS = {
@@ -15,13 +13,9 @@ FUNCTIONS = {
     'sqrt(x)': np.sqrt,
 }
 
-COLORS = ['blue', 'red', 'green', 'purple', 'orange']
-
 @app.route('/')
-def hello():
-    return render_template('main.html', 
-                         functions=list(FUNCTIONS.keys()),
-                         colors=COLORS)
+def index():
+    return render_template('index.html', functions=FUNCTIONS.keys())
 
 @app.route('/plot', methods=['POST'])
 def plot():
@@ -38,7 +32,7 @@ def plot():
     plt.title(f"Plot of {selected_function}")
     plt.xlabel('x')
     plt.ylabel('y')
-    
+
     plot_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'plot.png')
     plt.savefig(plot_filename)
     plt.close()
