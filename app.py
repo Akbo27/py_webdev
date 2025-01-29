@@ -40,3 +40,22 @@ def plot():
     plt.close()
 
     return render_template('plot.html', plot_url=plot_filename)
+
+@app.route('/histogram', methods=['POST'])
+def histogram():
+    data = request.form['data']
+    color = request.form.get('color', 'blue')
+
+    values = list(map(float, data.split(',')))
+
+    plt.figure()
+    plt.hist(values, bins=10, color=color)
+    plt.title("Histogram")
+    plt.xlabel('Value')
+    plt.ylabel('Frequency')
+
+    hist_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'histogram.png')
+    plt.savefig(hist_filename)
+    plt.close()
+
+    return render_template('plot.html', plot_url=hist_filename)

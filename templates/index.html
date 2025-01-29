@@ -26,5 +26,16 @@
         <br>
         <button type="submit">Plot</button>
     </form>
+
+    <h2>Histogram Plotter</h2>
+    <form action="/histogram" method="POST">
+    <label for="data">Enter comma-separated values:</label>
+    <input type="text" name="data" required>
+    <br>
+    <label for="color">Select color:</label>
+    <input type="color" name="color" value="#0000ff">
+    <br>
+    <button type="submit">Generate Histogram</button>
+</form>
 </body>
 </html>
