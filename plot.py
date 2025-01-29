@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from markupsafe import escape
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,3 +20,19 @@ def hello():
     return render_template('plot.html', 
                          functions=list(FUNCTIONS.keys()),
                          colors=COLORS)
+
+@app.route('/plot', methods=['POST'])
+def plot():
+    x_from = float(request.form['x_from'])
+    x_to = float(request.form['x_to'])
+    selected_function = request.form['function']
+    color = request.form.get('color', 'blue')  
+
+    x = np.linspace(x_from, x_to, 500)
+    y = FUNCTIONS[selected_function](x)
+
+    plt.figure()
+    plt.plot(x, y, color=color)
+    plt.title(f"Plot of {selected_function}")
+    plt.xlabel('x')
+    plt.ylabel('y')
