@@ -6,6 +6,8 @@ import os
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/images'
 
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
 FUNCTIONS = {
     'sin': np.sin,
     'cos': np.cos,

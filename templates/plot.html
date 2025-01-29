@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Your Plot</h1>
-    <img src="{{ plot_url }}" alt="Function Plot">
+    <img src="{{ plot_url | default('static/images/default_plot.png') }}" alt="Function Plot">
     <br>
     <a href="/">Back to Home</a>
 </body>
